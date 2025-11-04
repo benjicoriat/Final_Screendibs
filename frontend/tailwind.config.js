@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindcssPreset from '@tailwindcss/preset'
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 export default {
+  presets: [tailwindcssPreset], // 👈 Reintroduces all default utilities (gray, spacing, etc.)
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -18,8 +22,11 @@ export default {
           700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
-        }
-      }
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
     },
   },
   plugins: [],
