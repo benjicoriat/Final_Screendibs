@@ -1,0 +1,3 @@
+2025-11-08 15:31:17 - app.request - INFO - Request: GET http://127.0.0.1:8000/ from 127.0.0.1
+2025-11-08 15:36:06 - app.request - INFO - Request: GET http://localhost:8000/docs from 127.0.0.1
+2025-11-08 15:43:31 - app.request - INFO - Request: GET http://localhost:8000/health from 127.0.0.1

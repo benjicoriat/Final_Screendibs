@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: Optional[str] = None
     
     # Frontend
-    FRONTEND_URL: str = "http://localhost:3000"
+    FRONTEND_URL: str = "http://localhost:5173"
     
     # Environment
     ENVIRONMENT: str = "development"

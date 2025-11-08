@@ -7,7 +7,7 @@ from ..models.user import User
 from ..utils.auth import get_current_active_user
 from ..services.book_search import BookSearchService
 
-router = APIRouter(prefix="/api/books", tags=["books"])
+router = APIRouter(tags=["books"])
 
 @router.post("/search", response_model=List[BookInfo])
 async def search_books(

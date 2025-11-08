@@ -1,0 +1,39 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=app --cov-report=term-missing"
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 120
