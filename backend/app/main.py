@@ -20,6 +20,22 @@ app = FastAPI(
     redoc_url="/api/v1/redoc"
 )
 
+@app.get("/")
+async def root():
+    """Root endpoint with API information"""
+    return {
+        "message": "Welcome to Screendibs API",
+        "version": "1.0.0",
+        "docs": "/docs"
+    }
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy"}
+
+public_paths = ["/", "/health", "/api/v1/docs", "/api/v1/redoc", "/api/v1/openapi.json"]
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     """Log all incoming requests"""
@@ -32,6 +48,10 @@ async def log_requests(request: Request, call_next):
     except Exception:
         # don't let logging break requests
         pass
+
+    if request.url.path in public_paths:
+        return await call_next(request)
+
     response = await call_next(request)
     return response
 
@@ -55,20 +75,6 @@ app.add_middleware(GZipMiddleware)
 
 # Exception handlers
 app.add_exception_handler(Exception, global_exception_handler)
-
-@app.get("/")
-async def root():
-    """Root endpoint with API information"""
-    return {
-        "message": "Welcome to Screendibs API",
-        "version": "1.0.0",
-        "docs": "/docs"
-    }
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"}
 
 # Include routers
 app.include_router(auth.router, prefix="/api/v1/auth")

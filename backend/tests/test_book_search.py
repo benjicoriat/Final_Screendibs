@@ -39,17 +39,21 @@ def setup_groq_mock():
     with patch('app.services.book_search.Groq', return_value=mock_groq()) as _mock:
         yield _mock
 
-# Using client fixture from conftest.py
+@pytest.fixture
+def test_client():
+    app.dependency_overrides[get_current_active_user] = mock_get_current_active_user
+    client = TestClient(app)
+    yield client
+    app.dependency_overrides = {}
 
-def test_search_books_success(client):
+def test_search_books_success(test_client):
     mock_books = [
         {
-            "id": "1",
             "title": "Test Book",
             "author": "Test Author",
-            "year": 2023,
-            "genre": "Fiction",
-            "description": "A test book",
+            "year": "2023",
+            "type": "Fiction",
+            "description": "A test book. Another sentence about the book."
         }
     ]
     
@@ -93,10 +97,7 @@ def test_search_validation():
     assert request.additional_details == "Fiction book"
 
     with pytest.raises(ValueError):
-        BookSearchRequest(query="", filters={})
-
-@pytest.mark.asyncio
-async def test_book_search_service():
+        BookSearchRequest(description="")
     service = BookSearchService()
     
     # Mock external API call

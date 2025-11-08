@@ -12,7 +12,6 @@ router = APIRouter(tags=["books"])
 @router.post("/search", response_model=List[BookInfo])
 async def search_books(
     search_request: BookSearchRequest,
-    current_user: User = Depends(get_current_active_user),
     db: Session = Depends(get_db)
 ):
     """Search for books based on description and criteria."""
