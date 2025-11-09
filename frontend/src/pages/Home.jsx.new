@@ -1,14 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import FuturisticBackdrop from '../components/FuturisticBackdrop';
 
 const Home = () => {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-primary-50/10 library-root relative overflow-hidden">
-  <FuturisticBackdrop />
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-primary-50/10">
       {/* Hero Section */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

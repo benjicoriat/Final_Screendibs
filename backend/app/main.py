@@ -57,9 +57,10 @@ async def log_requests(request: Request, call_next):
 
 # Security middlewares
 allowed_host = settings.FRONTEND_URL.replace("http://", "").replace("https://", "").split(":")[0]
+# Allow common local/test hosts; include 'testserver' so TestClient requests don't get rejected
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=[allowed_host, "localhost", "127.0.0.1"]
+    allowed_hosts=[allowed_host, "localhost", "127.0.0.1", "testserver"]
 )
 
 app.add_middleware(

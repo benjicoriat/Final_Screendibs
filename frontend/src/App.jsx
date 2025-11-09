@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { Toaster } from 'react-hot-toast';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -13,8 +14,9 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
           <Navbar />
+          <Toaster position="top-right" reverseOrder={false} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

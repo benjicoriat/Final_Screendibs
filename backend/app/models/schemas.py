@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
 from .payment import PlanType, PaymentStatus
+from pydantic import field_validator
 
 # User Schemas
 class UserBase(BaseModel):
@@ -39,11 +40,14 @@ class BookSearchRequest(BaseModel):
     @property
     def is_valid(self) -> bool:
         return bool(self.description and self.description.strip())
-        
-    def __init__(self, **data):
-        super().__init__(**data)
-        if not self.description or not self.description.strip():
-            raise ValueError("Description cannot be empty")
+
+    # Use pydantic field validator so FastAPI/Pydantic return a 422 on invalid input
+    @field_validator('description')
+    @classmethod
+    def check_description(cls, v):
+        if v is None or not str(v).strip():
+            raise ValueError('Description cannot be empty')
+        return v
 
 class BookInfo(BaseModel):
     title: str

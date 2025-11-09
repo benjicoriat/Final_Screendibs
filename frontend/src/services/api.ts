@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { AuthResponse, Book, PaymentIntent, User } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+// Default to a versioned API root; can be overridden with VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
 
 class ApiError extends Error {
   constructor(
@@ -49,8 +50,9 @@ class Api {
         }
         throw new ApiError(
           error.response?.status || 500,
-          error.response?.data?.detail || 'An unexpected error occurred',
-          error.response?.data
+          // cast to any to safely access detail property when response data shape is unknown
+          (error.response as any)?.data?.detail || 'An unexpected error occurred',
+          (error.response as any)?.data
         );
       }
     );
@@ -62,23 +64,23 @@ class Api {
 
   // Auth endpoints
   async register(userData: { email: string; password: string; full_name: string }): Promise<AuthResponse> {
-    const response = await this.instance.post<AuthResponse>('/api/v1/auth/register', userData);
+    const response = await this.instance.post<AuthResponse>('/auth/register', userData);
     return this.handleResponse(response);
   }
 
   async login(credentials: { email: string; password: string }): Promise<AuthResponse> {
-    const response = await this.instance.post<AuthResponse>('/api/v1/auth/login', credentials);
+    const response = await this.instance.post<AuthResponse>('/auth/login', credentials);
     return this.handleResponse(response);
   }
 
   async getCurrentUser(): Promise<User> {
-    const response = await this.instance.get<User>('/api/v1/auth/me');
+    const response = await this.instance.get<User>('/auth/me');
     return this.handleResponse(response);
   }
 
   // Books endpoints
   async searchBooks(searchData: { query: string; filters?: Record<string, any> }): Promise<Book[]> {
-    const response = await this.instance.post<Book[]>('/api/v1/books/search', searchData);
+    const response = await this.instance.post<Book[]>('/books/search', searchData);
     return this.handleResponse(response);
   }
 
@@ -89,17 +91,17 @@ class Api {
 
   // Payments endpoints
   async createPaymentIntent(paymentData: { amount: number; currency: string }): Promise<PaymentIntent> {
-    const response = await this.instance.post<PaymentIntent>('/api/v1/payments/create-payment-intent', paymentData);
+    const response = await this.instance.post<PaymentIntent>('/payments/create-payment-intent', paymentData);
     return this.handleResponse(response);
   }
 
   async confirmPayment(paymentId: string): Promise<{ success: boolean }> {
-    const response = await this.instance.post<{ success: boolean }>(`/api/v1/payments/confirm-payment/${paymentId}`);
+    const response = await this.instance.post<{ success: boolean }>(`/payments/confirm-payment/${paymentId}`);
     return this.handleResponse(response);
   }
 
   async getPaymentHistory(): Promise<any[]> {
-    const response = await this.instance.get<any[]>('/api/v1/payments/history');
+    const response = await this.instance.get<any[]>('/payments/history');
     return this.handleResponse(response);
   }
 }

@@ -3,6 +3,7 @@ import json
 from typing import List, Optional
 from ..core.config import settings
 from ..models.schemas import BookInfo
+import re
 
 class BookSearchService:
     def __init__(self):
@@ -68,11 +69,28 @@ IMPORTANT:
                 content = content.split("```json")[1].split("```")[0].strip()
             elif "```" in content:
                 content = content.split("```")[1].split("```")[0].strip()
+
+            # Try direct JSON parse first; if that fails, attempt to extract a JSON array using regex
+            try:
+                books_data = json.loads(content)
+            except json.JSONDecodeError:
+                # conservative regex to extract the first JSON array-looking substring
+                m = re.search(r"(\[\s*\{.*?\}\s*\])", content, re.S)
+                if m:
+                    try:
+                        books_data = json.loads(m.group(1))
+                    except json.JSONDecodeError as e:
+                        raise Exception(f"Error parsing AI response (extracted): {e}\nContent: {m.group(1)[:200]}")
+                else:
+                    raise Exception(f"Error parsing AI response: invalid JSON. Raw content: {content[:500]}")
             
-            books_data = json.loads(content)
-            
-            # Convert to BookInfo objects
-            books = [BookInfo(**book) for book in books_data]
+            # Convert to BookInfo objects, coerce year to string
+            books = []
+            for book in books_data:
+                # Ensure keys are strings and year is string
+                if 'year' in book and not isinstance(book['year'], str):
+                    book['year'] = str(book['year'])
+                books.append(BookInfo(**book))
             
             return books
             

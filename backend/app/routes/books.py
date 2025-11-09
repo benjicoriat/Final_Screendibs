@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from typing import List
 from sqlalchemy.orm import Session
 from ..core.database import get_db
@@ -24,7 +25,5 @@ async def search_books(
         )
         return books
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error searching for books: {str(e)}"
-        )
+        # Return a JSON body with an 'error' key to match test expectations
+        return JSONResponse(status_code=500, content={"error": f"Error searching for books: {str(e)}"})

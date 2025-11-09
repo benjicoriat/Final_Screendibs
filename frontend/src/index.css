@@ -1,3 +1,320 @@
+/* Font imports disabled temporarily — uncomment if you want local @fontsource fonts.
+  If you re-enable, ensure the packages exist in node_modules and include the referenced files.
+  Example: @import '@fontsource/inter/index.css'; */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-900 bg-gray-50;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white transition-all duration-200 
+    bg-primary-600 border border-transparent rounded-lg shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 
+    focus:ring-offset-2 focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-primary-700 transition-all duration-200 
+    bg-primary-100 border border-transparent rounded-lg hover:bg-primary-200 focus:outline-none focus:ring-2 
+    focus:ring-offset-2 focus:ring-primary-500;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-primary-600 transition-all duration-200 
+    bg-transparent border border-primary-600 rounded-lg hover:bg-primary-50 focus:outline-none focus:ring-2 
+    focus:ring-offset-2 focus:ring-primary-500;
+  }
+
+  .card {
+    @apply p-6 bg-white rounded-xl shadow-lg transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .input {
+    @apply block w-full px-4 py-3 text-gray-900 placeholder-gray-500 border-gray-300 rounded-lg shadow-sm 
+    focus:ring-primary-500 focus:border-primary-500;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-800;
+  }
+
+  .badge-accent {
+    @apply bg-accent-100 text-accent-800;
+  }
+
+  .badge-serif {
+    @apply bg-serif-100 text-serif-800;
+  }
+
+  .prose-custom {
+    @apply prose prose-lg prose-primary max-w-none
+    prose-headings:font-display prose-headings:text-gray-900
+    prose-p:text-gray-700 prose-p:font-serif
+    prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-700
+    prose-strong:text-gray-900 prose-strong:font-semibold;
+  }
+}
+
+/* Custom animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Library atmosphere styles */
+.library-root {
+  --wood-wood: linear-gradient(180deg, rgba(121,72,42,0.06), rgba(95,56,34,0.04));
+  background-image: var(--wood-wood), radial-gradient(1200px 600px at 10% 10%, rgba(255,230,170,0.06), transparent 20%), linear-gradient(180deg, rgba(255,248,236,0.6), rgba(255,245,238,0.2));
+}
+
+.library-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.library-backdrop .bookshelf {
+  position: absolute;
+  left: -5%;
+  top: 12%;
+  width: 110%;
+  height: 220px;
+  opacity: 0.18;
+  transform: translateZ(0);
+}
+
+.library-backdrop .absolute-lamp {
+  position: absolute;
+  right: 6%;
+  top: 14%;
+  opacity: 0.9;
+  filter: blur(6px) saturate(1.05);
+}
+
+.library-backdrop .plants {
+  position: absolute;
+  left: 6%;
+  bottom: 8%;
+  opacity: 0.95;
+}
+
+.library-backdrop .vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 20%, rgba(255,244,230,0.12), transparent 25%), radial-gradient(circle at 50% 90%, rgba(18,10,6,0.12), transparent 35%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* warm card backgrounds */
+.bg-warm-card {
+  background: linear-gradient(180deg, rgba(255,250,244,0.9), rgba(255,245,238,0.8));
+  box-shadow: 0 8px 30px rgba(16,10,6,0.08);
+}
+
+.text-warm-muted { color: #6b4a36; }
+
+/* Left bookshelf styling */
+.bookshelf-left {
+  position: absolute;
+  left: 0;
+  top: 6%;
+  width: 34%;
+  height: 88%;
+  z-index: 0;
+  opacity: 0.95;
+  filter: saturate(0.95) contrast(0.98);
+}
+
+/* Movie / cinema styling for right side */
+.movie-right {
+  position: absolute;
+  right: 2%;
+  top: 8%;
+  width: 30%;
+  height: 84%;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.movie-right .poster-wrap { transform: translateY(10%); opacity: 0.95; }
+.movie-right .reel-wrap { transform: translateY(6%); opacity: 0.9; }
+.movie-right .projector-wrap { transform: translateY(6%); opacity: 0.92; }
+.movie-right .armchair-wrap { transform: translateY(12%); opacity: 0.95; }
+
+/* Lamp glow center */
+.lamp-wrap { position: absolute; left: 44%; top: 12%; width: 28%; height: 36%; z-index: 0; pointer-events: none; opacity: 0.95; }
+
+/* Dust / particles animation */
+.dust { position: absolute; inset: 0; z-index: 5; pointer-events: none; mix-blend-mode: screen; opacity: 0.28; }
+
+@keyframes floatDust {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-6px) translateX(4px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+.dust circle { animation: floatDust 8s ease-in-out infinite; }
+
+/* Poster/film warm tint overlay */
+.movie-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,230,170,0.06), transparent 15%);
+  pointer-events: none;
+}
+
+/* Ensure main content sits above decorations */
+.library-root > * { position: relative; z-index: 10; }
+
+/* Futuristic backdrop styles */
+.futuristic-backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.futuristic-backdrop .left-half, .futuristic-backdrop .right-half { position: absolute; top: 0; height: 100%; }
+.futuristic-backdrop .left-half { left: 0; width: 48%; display: block; }
+.futuristic-backdrop .right-half { right: 0; width: 48%; display: block; }
+
+.futuristic-backdrop .shelf-wrap { position: absolute; left: 6%; top: 8%; width: 86%; height: 76%; opacity: 0.95; transform: translateZ(0); }
+.futuristic-backdrop .knowledge-flow { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* small animated streams on left */
+.futuristic-backdrop .stream { stroke-width: 1.2; stroke-linecap: round; fill: none; stroke-dasharray: 600; stroke-dashoffset: 600; animation: flowLine 8s linear infinite; }
+.futuristic-backdrop .stream-0 { animation-delay: 0s; }
+.futuristic-backdrop .stream-1 { animation-delay: 0.2s; }
+.futuristic-backdrop .stream-2 { animation-delay: 0.4s; }
+.futuristic-backdrop .stream-3 { animation-delay: 0.6s; }
+.futuristic-backdrop .stream-4 { animation-delay: 0.8s; }
+.futuristic-backdrop .stream-5 { animation-delay: 1s; }
+.futuristic-backdrop .stream-6 { animation-delay: 1.2s; }
+.futuristic-backdrop .stream-7 { animation-delay: 1.4s; }
+.futuristic-backdrop .stream-8 { animation-delay: 1.6s; }
+.futuristic-backdrop .stream-9 { animation-delay: 1.8s; }
+
+@keyframes flowLine { to { stroke-dashoffset: 0; } }
+
+/* Holographic spines subtle bob */
+.holo-spine { animation: bob 6s ease-in-out infinite; opacity: 0.9; mix-blend-mode: screen; }
+@keyframes bob { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
+
+/* data-streams pulsing */
+.data-stream { animation: streamPulse 2.2s ease-in-out infinite; transform-origin: center top; }
+@keyframes streamPulse { 0% { opacity: 0.06; transform: scaleY(0.8) } 50% { opacity: 0.14; transform: scaleY(1.05) } 100% { opacity: 0.06; transform: scaleY(0.8) } }
+
+/* Right side neon movie area */
+.futuristic-backdrop .movie-wrap { position: absolute; right: 6%; top: 10%; width: 86%; height: 60%; opacity: 0.95; }
+.futuristic-backdrop .neon-panel { filter: drop-shadow(0 6px 20px rgba(90,80,255,0.08)) saturate(1.2); }
+.futuristic-backdrop .reel-group { animation: reelSpin 12s linear infinite; transform-origin: 80px 80px; }
+@keyframes reelSpin { to { transform: rotate(360deg) } }
+
+/* glass panels */
+.futuristic-backdrop .glass-panels { position: absolute; right: 10%; top: 58%; display: flex; gap: 14px; transform: translateY(8%); }
+.futuristic-backdrop .glass { width: 140px; height: 100px; border-radius: 12px; background: rgba(255,255,255,0.04); box-shadow: 0 8px 30px rgba(2,6,23,0.45) inset; backdrop-filter: blur(6px) saturate(1.2); border: 1px solid rgba(255,255,255,0.04); }
+.futuristic-backdrop .card-1 { width: 220px; height: 130px; background: linear-gradient(180deg, rgba(20,26,40,0.55), rgba(10,12,18,0.45)); border-left: 2px solid rgba(0,255,200,0.06); }
+.futuristic-backdrop .card-2 { width: 120px; height: 86px; background: linear-gradient(180deg, rgba(30,14,40,0.35), rgba(8,4,12,0.25)); border-left: 2px solid rgba(255,10,200,0.04); }
+
+/* particles (small dots) */
+.futuristic-backdrop .particles { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.futuristic-backdrop .particle { position: absolute; width: 6px; height: 6px; background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(0,0,0,0)); border-radius: 50%; opacity: 0.08; animation: drift 10s linear infinite; }
+@keyframes drift { 0% { transform: translateY(0) translateX(0) } 50% { transform: translateY(-18px) translateX(8px) } 100% { transform: translateY(0) translateX(0) } }
+
+/* strong vignette to add depth */
+.vignette-strong { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(18,12,32,0) 30%, rgba(6,4,12,0.45) 100%); pointer-events: none; mix-blend-mode: multiply; }
+
+/* ensure content above backdrop */
+/* ensure content above backdrop */
+.library-root > * { position: relative; z-index: 30; }
+
+/* Responsive: degrade backdrop on small screens for performance and readability */
+@media (max-width: 768px) {
+  /* hide heavy decorative halves */
+  .futuristic-backdrop .left-half,
+  .futuristic-backdrop .right-half,
+  .futuristic-backdrop .shelf-wrap,
+  .futuristic-backdrop .movie-wrap,
+  .futuristic-backdrop .glass-panels,
+  .futuristic-backdrop .knowledge-flow {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* remove particle DOMs and animations */
+  .futuristic-backdrop .particles,
+  .futuristic-backdrop .particle,
+  .futuristic-backdrop .reel-group,
+  .futuristic-backdrop .holo-spine,
+  .futuristic-backdrop .data-stream,
+  .futuristic-backdrop .stream {
+    display: none !important;
+    animation: none !important;
+  }
+
+  /* show a subtle, single-layer gradient with small glow centered for atmosphere */
+  .futuristic-backdrop {
+    background: linear-gradient(180deg, rgba(6,8,20,0.92), rgba(14,12,28,0.96));
+    opacity: 0.98;
+  }
+
+  /* lightweight vignette and soft center glow */
+  .vignette-strong {
+    background: radial-gradient(circle at 50% 30%, rgba(10,18,30,0.06), rgba(6,4,12,0.9));
+  }
+
+  /* reduce backdrop z-index to avoid blocking touch targets */
+  .futuristic-backdrop { z-index: 0; }
+
+  /* make sure main content remains readable and centered */
+  .library-root > * { z-index: 40; }
+}
+
+/* Further reduce on very small devices */
+@media (max-width: 420px) {
+  .futuristic-backdrop { background: linear-gradient(180deg, rgba(6,8,20,0.94), rgba(8,6,14,0.98)); }
+  .vignette-strong { background: radial-gradient(circle at 50% 35%, rgba(10,18,30,0.04), rgba(6,4,12,0.96)); }
+}
+

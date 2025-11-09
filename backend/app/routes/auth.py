@@ -9,7 +9,7 @@ from ..models.user import User
 from ..models.schemas import UserCreate, UserResponse, UserLogin, Token
 from ..utils.auth import get_current_active_user
 
-router = APIRouter(prefix="/api/auth", tags=["authentication"])
+router = APIRouter(tags=["authentication"])
 
 @router.post("/register", response_model=UserResponse)
 async def register(user: UserCreate, db: Session = Depends(get_db)):

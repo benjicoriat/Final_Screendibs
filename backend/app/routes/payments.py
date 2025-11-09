@@ -12,7 +12,7 @@ from ..utils.auth import get_current_active_user
 from ..services.report_generator import ReportGeneratorService
 from ..services.email_service import EmailService
 
-router = APIRouter(prefix="/api/payments", tags=["payments"])
+router = APIRouter(tags=["payments"])
 
 # Initialize Stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY

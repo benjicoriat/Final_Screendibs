@@ -236,11 +236,19 @@ Write ONLY the content, no titles or labels. Begin immediately with insightful a
                 temperature=0.7,
                 max_tokens=3500
             )
-            
-            return response.choices[0].message.content.strip()
-            
+
+            content = response.choices[0].message.content.strip()
+            # Basic safety: truncate extremely long outputs and ensure non-empty
+            if not content:
+                return "Content unavailable for this section."
+            if len(content) > 20000:
+                return content[:20000] + "\n\n[Content truncated]"
+
+            return content
+
         except Exception as e:
-            return f"An error occurred while generating content for this section: {e}"
+            # Return a neutral fallback rather than raw exception text
+            return "Content unavailable for this section due to an upstream generation error."
     
     def generate_report(self, book: str, author: str, plan_type: PlanType) -> str:
         """Generates a complete PDF report and returns the file path."""

@@ -67,10 +67,10 @@ const CheckoutForm = ({ book, selectedPlan, amount }) => {
 
   if (success) {
     return (
-      <div className="text-center py-12">
-        <div className="mb-4">
+      <div className="text-center py-16">
+        <div className="mb-6">
           <svg
-            className="mx-auto h-16 w-16 text-green-500"
+            className="mx-auto h-20 w-20 text-green-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -83,46 +83,51 @@ const CheckoutForm = ({ book, selectedPlan, amount }) => {
             />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h2>
-        <p className="text-gray-600 mb-4">
-          Your report is being generated and will be sent to your email shortly.
+        <h2 className="text-3xl font-serif font-bold text-slate-900 mb-4">Payment Successful!</h2>
+        <p className="text-lg text-slate-600 mb-6">
+          Your literary analysis is being crafted and will arrive in your inbox shortly.
         </p>
-        <p className="text-sm text-gray-500">Redirecting to dashboard...</p>
+        <p className="text-sm font-medium text-slate-500">Redirecting to your dashboard...</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+        <div className="bg-red-50 border border-red-200 text-red-600 px-6 py-4 rounded-xl text-sm font-medium">
           {error}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-lg font-medium text-slate-900 mb-3">
           Card Information
         </label>
-        <div className="border border-gray-300 rounded-lg p-3">
+        <div className="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
           <CardElement
             options={{
               style: {
                 base: {
                   fontSize: '16px',
-                  color: '#424770',
+                  fontWeight: '400',
+                  color: '#334155',
                   '::placeholder': {
-                    color: '#aab7c4',
+                    color: '#94A3B8',
+                  },
+                  ':-webkit-autofill': {
+                    color: '#334155',
                   },
                 },
                 invalid: {
-                  color: '#9e2146',
+                  color: '#EF4444',
+                  iconColor: '#EF4444',
                 },
               },
             }}
           />
         </div>
-        <p className="mt-2 text-xs text-gray-500">
+        <p className="mt-3 text-sm text-slate-500">
           Test card: 4242 4242 4242 4242 | Any future date | Any 3 digits
         </p>
       </div>
@@ -130,9 +135,19 @@ const CheckoutForm = ({ book, selectedPlan, amount }) => {
       <button
         type="submit"
         disabled={!stripe || processing}
-        className="w-full btn-primary"
+        className="w-full px-6 py-4 text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {processing ? 'Processing...' : `Pay $${amount.toFixed(2)}`}
+        {processing ? (
+          <span className="inline-flex items-center">
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            Processing...
+          </span>
+        ) : (
+          `Complete Payment - $${amount.toFixed(2)}`
+        )}
       </button>
     </form>
   );
@@ -172,47 +187,51 @@ const Checkout = () => {
   const selectedPlanData = plans.find((p) => p.type === selectedPlan);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-primary-50/10 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+        <h1 className="text-4xl font-serif font-bold text-slate-900 mb-12">Complete Your Order</h1>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Book & Plan Selection */}
           <div>
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Book Details</h2>
-              <div className="space-y-2">
-                <p className="text-gray-700">
-                  <span className="font-medium">Title:</span> {book.title}
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8 mb-8">
+              <h2 className="text-2xl font-serif font-bold text-slate-900 mb-6">Selected Book</h2>
+              <div className="space-y-4">
+                <p className="flex justify-between text-lg">
+                  <span className="font-medium text-slate-500">Title</span>
+                  <span className="text-slate-900">{book.title}</span>
                 </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Author:</span> {book.author}
+                <p className="flex justify-between text-lg">
+                  <span className="font-medium text-slate-500">Author</span>
+                  <span className="text-slate-900">{book.author}</span>
                 </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Published:</span> {book.year}
+                <p className="flex justify-between text-lg">
+                  <span className="font-medium text-slate-500">Published</span>
+                  <span className="text-slate-900">{book.year}</span>
                 </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Type:</span> {book.type}
+                <p className="flex justify-between text-lg">
+                  <span className="font-medium text-slate-500">Category</span>
+                  <span className="text-slate-900">{book.type}</span>
                 </p>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Select Plan</h2>
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
+              <h2 className="text-2xl font-serif font-bold text-slate-900 mb-6">Choose Your Plan</h2>
 
               {loading ? (
-                <div className="flex justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+                <div className="flex justify-center py-12">
+                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600"></div>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {plans.map((plan) => (
                     <label
                       key={plan.type}
-                      className={`block border-2 rounded-lg p-4 cursor-pointer transition ${
+                      className={`block border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 ${
                         selectedPlan === plan.type
-                          ? 'border-primary-500 bg-primary-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-primary-500 bg-gradient-to-r from-primary-50 to-primary-100/50'
+                          : 'border-slate-200 hover:border-primary-300 hover:bg-slate-50'
                       }`}
                     >
                       <input
@@ -225,12 +244,15 @@ const Checkout = () => {
                       />
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="font-bold text-gray-900">{plan.name}</h3>
-                          <p className="text-sm text-gray-600">{plan.pages}</p>
+                          <h3 className="text-lg font-bold text-slate-900 mb-1">{plan.name}</h3>
+                          <p className="text-slate-600">{plan.pages}</p>
                         </div>
-                        <span className="text-xl font-bold text-primary-600">
-                          ${plan.price.toFixed(2)}
-                        </span>
+                        <div className="text-right">
+                          <p className="text-2xl font-bold text-primary-600">
+                            ${plan.price.toFixed(2)}
+                          </p>
+                          <p className="text-sm text-slate-500">USD</p>
+                        </div>
                       </div>
                     </label>
                   ))}
@@ -241,18 +263,21 @@ const Checkout = () => {
 
           {/* Payment Form */}
           <div>
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Payment Information</h2>
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
+              <h2 className="text-2xl font-serif font-bold text-slate-900 mb-6">Payment Details</h2>
 
               {selectedPlanData && (
-                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">Plan:</span>
-                    <span className="font-medium">{selectedPlanData.name}</span>
+                <div className="mb-8 p-6 bg-gradient-to-r from-slate-50 to-slate-100/50 rounded-xl border border-slate-200">
+                  <div className="flex justify-between text-lg mb-2">
+                    <span className="text-slate-600">Selected Plan</span>
+                    <span className="font-medium text-slate-900">{selectedPlanData.name}</span>
                   </div>
-                  <div className="flex justify-between text-lg font-bold">
-                    <span>Total:</span>
-                    <span className="text-primary-600">${selectedPlanData.price.toFixed(2)}</span>
+                  <div className="flex justify-between items-end">
+                    <span className="text-xl font-bold text-slate-900">Total Due</span>
+                    <div className="text-right">
+                      <span className="text-3xl font-bold text-primary-600">${selectedPlanData.price.toFixed(2)}</span>
+                      <p className="text-sm text-slate-500 mt-1">USD</p>
+                    </div>
                   </div>
                 </div>
               )}

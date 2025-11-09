@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+// Use VITE_API_URL if provided, otherwise default to the server versioned API prefix
+const API_URL = import.meta.env.VITE_API_URL || '/api/v1';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -25,22 +26,22 @@ api.interceptors.request.use(
 
 // Auth API
 export const authAPI = {
-  register: (userData) => api.post('/api/auth/register', userData),
-  login: (credentials) => api.post('/api/auth/login', credentials),
-  getCurrentUser: () => api.get('/api/auth/me'),
+  register: (userData) => api.post('/auth/register', userData),
+  login: (credentials) => api.post('/auth/login', credentials),
+  getCurrentUser: () => api.get('/auth/me'),
 };
 
 // Books API
 export const booksAPI = {
-  search: (searchData) => api.post('/api/books/search', searchData),
+  search: (searchData) => api.post('/books/search', searchData),
 };
 
 // Payments API
 export const paymentsAPI = {
-  getPlans: () => api.get('/api/payments/plans'),
-  createPaymentIntent: (paymentData) => api.post('/api/payments/create-payment-intent', paymentData),
-  confirmPayment: (paymentId) => api.post(`/api/payments/confirm-payment/${paymentId}`),
-  getHistory: () => api.get('/api/payments/history'),
+  getPlans: () => api.get('/payments/plans'),
+  createPaymentIntent: (paymentData) => api.post('/payments/create-payment-intent', paymentData),
+  confirmPayment: (paymentId) => api.post(`/payments/confirm-payment/${paymentId}`),
+  getHistory: () => api.get('/payments/history'),
 };
 
 export default api;

@@ -18,15 +18,14 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
-    # Create users table
+    # Create users table (align with ORM models: integer PK and nullable optional fields)
     op.create_table(
         'users',
-        sa.Column('id', sa.String(36), primary_key=True),
+        sa.Column('id', sa.Integer(), primary_key=True, autoincrement=True),
         sa.Column('email', sa.String(255), unique=True, nullable=False),
-        sa.Column('full_name', sa.String(255), nullable=False),
-        sa.Column('hashed_password', sa.String(255), nullable=False),
-        sa.Column('is_active', sa.Boolean(), nullable=False, default=True),
-        sa.Column('is_superuser', sa.Boolean(), nullable=False, default=False),
+        sa.Column('full_name', sa.String(255), nullable=True),
+        sa.Column('hashed_password', sa.String(255), nullable=True),
+        sa.Column('is_active', sa.Boolean(), nullable=False, server_default=sa.text('true')),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()')),
         sa.Column('updated_at', sa.DateTime(timezone=True), onupdate=sa.text('now()')),
     )
@@ -57,15 +56,19 @@ def upgrade() -> None:
         sa.Column('download_url', sa.String(512), nullable=True),
     )
 
-    # Create payments table
+    # Create payments table (align with ORM models: integer PK, float amount in dollars, stripe_payment_id)
     op.create_table(
         'payments',
-        sa.Column('id', sa.String(36), primary_key=True),
-        sa.Column('user_id', sa.String(36), sa.ForeignKey('users.id'), nullable=False),
-        sa.Column('amount', sa.Integer(), nullable=False),  # Amount in cents
-        sa.Column('currency', sa.String(3), nullable=False),
+        sa.Column('id', sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column('user_id', sa.Integer(), sa.ForeignKey('users.id'), nullable=False),
+        sa.Column('stripe_payment_id', sa.String(255), unique=True, nullable=False),
+        sa.Column('amount', sa.Float(), nullable=False),  # Amount in dollars
+        sa.Column('currency', sa.String(3), nullable=False, server_default='usd'),
         sa.Column('status', sa.String(50), nullable=False),
-        sa.Column('stripe_payment_intent_id', sa.String(255), nullable=True),
+        sa.Column('pdf_sent', sa.Boolean(), nullable=False, server_default=sa.text('false')),
+        sa.Column('plan_type', sa.String(50), nullable=True),
+        sa.Column('book_title', sa.String(255), nullable=True),
+        sa.Column('book_author', sa.String(255), nullable=True),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()')),
         sa.Column('updated_at', sa.DateTime(timezone=True), onupdate=sa.text('now()')),
     )
@@ -77,7 +80,7 @@ def upgrade() -> None:
     op.create_index(op.f('ix_reports_user_id'), 'reports', ['user_id'])
     op.create_index(op.f('ix_reports_book_id'), 'reports', ['book_id'])
     op.create_index(op.f('ix_payments_user_id'), 'payments', ['user_id'])
-    op.create_index(op.f('ix_payments_stripe_payment_intent_id'), 'payments', ['stripe_payment_intent_id'], unique=True)
+    op.create_index(op.f('ix_payments_stripe_payment_id'), 'payments', ['stripe_payment_id'], unique=True)
 
 def downgrade() -> None:
     op.drop_table('payments')
