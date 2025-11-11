@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from ..core.database import get_db
 from ..core.security import verify_password, get_password_hash, create_access_token
 from ..core.config import settings
@@ -10,9 +12,11 @@ from ..models.schemas import UserCreate, UserResponse, UserLogin, Token
 from ..utils.auth import get_current_active_user
 
 router = APIRouter(tags=["authentication"])
+limiter = Limiter(key_func=get_remote_address)
 
 @router.post("/register", response_model=UserResponse)
-async def register(user: UserCreate, db: Session = Depends(get_db)):
+@limiter.limit("3/minute")
+async def register(request: Request, user: UserCreate, db: Session = Depends(get_db)):
     """Register a new user with email and password."""
     
     # Check if user already exists
@@ -39,7 +43,8 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 @router.post("/login", response_model=Token)
-async def login(user: UserLogin, db: Session = Depends(get_db)):
+@limiter.limit("5/minute")
+async def login(request: Request, user: UserLogin, db: Session = Depends(get_db)):
     """Login with email and password."""
     
     # Find user
@@ -75,7 +80,9 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/token", response_model=Token)
+@limiter.limit("5/minute")
 async def login_for_access_token(
+    request: Request,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):

@@ -1,35 +1,36 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { AxiosError } from 'axios';
 
-const Register = () => {
+const Login: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    full_name: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      await register(formData);
+      await login(formData);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed. Please try again.');
+      const axiosError = err as AxiosError<any>;
+      setError(axiosError.response?.data?.detail || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -40,12 +41,12 @@ const Register = () => {
       <div className="max-w-md w-full">
         <div className="text-center">
           <h2 className="text-4xl font-serif font-bold text-slate-900 mb-4">
-            Begin Your Journey
+            Welcome Back
           </h2>
           <p className="text-lg text-slate-600 mb-8">
-            Already have an account?{' '}
-            <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-300">
-              Sign in here
+            Not registered yet?{' '}
+            <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-300">
+              Create an account
             </Link>
           </p>
         </div>
@@ -59,22 +60,6 @@ const Register = () => {
             )}
 
             <div className="space-y-6">
-              <div>
-                <label htmlFor="full_name" className="block text-base font-medium text-slate-900 mb-2">
-                  Full Name
-                </label>
-                <input
-                  id="full_name"
-                  name="full_name"
-                  type="text"
-                  required
-                  className="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-slate-800 placeholder-slate-400 transition-all duration-300"
-                  placeholder="John Doe"
-                  value={formData.full_name}
-                  onChange={handleChange}
-                />
-              </div>
-
               <div>
                 <label htmlFor="email" className="block text-base font-medium text-slate-900 mb-2">
                   Email address
@@ -100,13 +85,11 @@ const Register = () => {
                   name="password"
                   type="password"
                   required
-                  minLength="6"
                   className="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-slate-800 placeholder-slate-400 transition-all duration-300"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <p className="mt-2 text-sm text-slate-500">Must be at least 6 characters</p>
               </div>
             </div>
 
@@ -122,10 +105,10 @@ const Register = () => {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                     </svg>
-                    Creating your account...
+                    Signing in...
                   </span>
                 ) : (
-                  'Create your account'
+                  'Sign in'
                 )}
               </button>
             </div>
@@ -136,4 +119,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

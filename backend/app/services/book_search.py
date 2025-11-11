@@ -4,10 +4,22 @@ from typing import List, Optional
 from ..core.config import settings
 from ..models.schemas import BookInfo
 import re
+import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 class BookSearchService:
     def __init__(self):
         self.client = Groq(api_key=settings.GROQ_API_KEY)
+        self.max_retries = 3
+        self.base_backoff = 1  # seconds
+    
+    def _exponential_backoff(self, attempt: int) -> float:
+        """Calculate exponential backoff with jitter."""
+        import random
+        delay = self.base_backoff * (2 ** attempt) + random.uniform(0, 1)
+        return min(delay, 30)  # Cap at 30 seconds
     
     def search_books(
         self, 
@@ -15,7 +27,31 @@ class BookSearchService:
         additional_details: Optional[str] = None,
         exclude_titles: List[str] = []
     ) -> List[BookInfo]:
-        """Search for 10 books matching the criteria."""
+        """Search for 10 books matching the criteria with retries."""
+        
+        for attempt in range(self.max_retries):
+            try:
+                logger.info(f"Book search attempt {attempt + 1}/{self.max_retries} for: {description[:50]}...")
+                return self._do_search(description, additional_details, exclude_titles)
+            except json.JSONDecodeError as e:
+                logger.warning(f"JSON parse error on attempt {attempt + 1}: {e}")
+                if attempt < self.max_retries - 1:
+                    delay = self._exponential_backoff(attempt)
+                    logger.info(f"Retrying in {delay:.1f} seconds...")
+                    time.sleep(delay)
+                else:
+                    raise Exception(f"Book search failed after {self.max_retries} attempts: {e}")
+            except Exception as e:
+                logger.error(f"Book search error on attempt {attempt + 1}: {e}")
+                if attempt < self.max_retries - 1:
+                    delay = self._exponential_backoff(attempt)
+                    logger.info(f"Retrying in {delay:.1f} seconds...")
+                    time.sleep(delay)
+                else:
+                    raise
+    
+    def _do_search(self, description: str, additional_details: Optional[str], exclude_titles: List[str]) -> List[BookInfo]:
+        """Internal method to perform the actual search."""
         
         prompt = f"""You are a knowledgeable librarian assistant. Find exactly 10 books that match the following criteria:
 
@@ -63,6 +99,7 @@ IMPORTANT:
             )
             
             content = response.choices[0].message.content.strip()
+            logger.debug(f"LLM response length: {len(content)} chars")
             
             # Clean up JSON response
             if "```json" in content:
@@ -83,7 +120,7 @@ IMPORTANT:
                         raise Exception(f"Error parsing AI response (extracted): {e}\nContent: {m.group(1)[:200]}")
                 else:
                     raise Exception(f"Error parsing AI response: invalid JSON. Raw content: {content[:500]}")
-            
+
             # Convert to BookInfo objects, coerce year to string
             books = []
             for book in books_data:
@@ -92,9 +129,12 @@ IMPORTANT:
                     book['year'] = str(book['year'])
                 books.append(BookInfo(**book))
             
+            logger.info(f"Successfully retrieved {len(books)} books")
             return books
             
         except json.JSONDecodeError as e:
-            raise Exception(f"Error parsing AI response: {e}")
+            logger.error(f"JSON parsing failed: {e}")
+            raise
         except Exception as e:
-            raise Exception(f"Error searching books: {e}")
+            logger.error(f"Book search service error: {e}")
+            raise

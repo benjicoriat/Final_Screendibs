@@ -21,7 +21,7 @@ class Payment(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     stripe_payment_id = Column(String, unique=True, nullable=False)
-    amount = Column(Float, nullable=False)
+    amount = Column(Integer, nullable=False)  # Amount in cents for precision
     currency = Column(String, default="usd")
     status = Column(SQLEnum(PaymentStatus), default=PaymentStatus.PENDING)
     plan_type = Column(SQLEnum(PlanType), nullable=False)

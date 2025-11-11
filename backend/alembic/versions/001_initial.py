@@ -56,13 +56,13 @@ def upgrade() -> None:
         sa.Column('download_url', sa.String(512), nullable=True),
     )
 
-    # Create payments table (align with ORM models: integer PK, float amount in dollars, stripe_payment_id)
+    # Create payments table (align with ORM models: integer PK, amount in cents)
     op.create_table(
         'payments',
         sa.Column('id', sa.Integer(), primary_key=True, autoincrement=True),
         sa.Column('user_id', sa.Integer(), sa.ForeignKey('users.id'), nullable=False),
         sa.Column('stripe_payment_id', sa.String(255), unique=True, nullable=False),
-        sa.Column('amount', sa.Float(), nullable=False),  # Amount in dollars
+        sa.Column('amount', sa.Integer(), nullable=False),  # Amount in cents
         sa.Column('currency', sa.String(3), nullable=False, server_default='usd'),
         sa.Column('status', sa.String(50), nullable=False),
         sa.Column('pdf_sent', sa.Boolean(), nullable=False, server_default=sa.text('false')),

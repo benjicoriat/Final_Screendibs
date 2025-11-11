@@ -11,10 +11,17 @@ import tempfile
 from typing import List, Dict
 from ..core.config import settings
 from ..models.payment import PlanType
+import logging
+import time
+
+logger = logging.getLogger(__name__)
 
 class ReportGeneratorService:
     def __init__(self):
         self.client = Groq(api_key=settings.GROQ_API_KEY)
+        self.max_retries = 2
+        self.request_timeout = 60  # seconds
+        self.base_backoff = 2
     
     def setup_pdf_styles(self):
         """Creates custom PDF styles for elegant formatting."""
@@ -203,7 +210,24 @@ Return ONLY valid JSON, no other text."""
             ]
     
     def generate_section_content(self, book: str, author: str, section_name: str, section_description: str) -> str:
-        """Generates content for a specific section."""
+        """Generates content for a specific section with retries and timeout."""
+        
+        for attempt in range(self.max_retries):
+            try:
+                logger.info(f"Generating section '{section_name}' attempt {attempt + 1}/{self.max_retries}")
+                return self._do_generate_section(book, author, section_name, section_description)
+            except Exception as e:
+                logger.warning(f"Section generation error on attempt {attempt + 1}: {e}")
+                if attempt < self.max_retries - 1:
+                    delay = self.base_backoff * (2 ** attempt)
+                    logger.info(f"Retrying in {delay} seconds...")
+                    time.sleep(delay)
+                else:
+                    logger.error(f"Section '{section_name}' generation failed after {self.max_retries} attempts")
+                    return "Content unavailable for this section due to generation errors."
+    
+    def _do_generate_section(self, book: str, author: str, section_name: str, section_description: str) -> str:
+        """Internal method to generate section content."""
         prompt = f"""You are an erudite literary scholar with exceptional writing skills. Write a comprehensive, eloquent analysis for the following section about the book "{book}" by {author}.
 
 SECTION: {section_name}
@@ -242,11 +266,13 @@ Write ONLY the content, no titles or labels. Begin immediately with insightful a
             if not content:
                 return "Content unavailable for this section."
             if len(content) > 20000:
+                logger.warning(f"Section content exceeded 20KB limit; truncating")
                 return content[:20000] + "\n\n[Content truncated]"
 
             return content
 
         except Exception as e:
+            logger.error(f"Section generation error: {e}")
             # Return a neutral fallback rather than raw exception text
             return "Content unavailable for this section due to an upstream generation error."
     

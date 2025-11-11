@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screendibs - Logging In...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+        .loading {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            color: #333;
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        p {
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <h1>Screendibs</h1>
+        <div class="spinner"></div>
+        <p>Logging in...</p>
+        <p style="margin-top: 20px; font-size: 14px; color: #999;">
+            Email: ben.coriat@gmail.com
+        </p>
+    </div>
+
+    <script>
+        // Token to inject
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiZW4uY29yaWF0QGdtYWlsLmNvbSIsImV4cCI6MTc2Mjg4ODIwNH0.4FxP1gYPvOIH74DtAkNpKTqvUjqOEWSxubYk79WGxHM';
+        const user = {
+            email: 'ben.coriat@gmail.com',
+            full_name: 'Ben Coriat',
+            id: 1,
+            is_active: true,
+            is_verified: true,
+            created_at: '2025-11-11T18:36:33.906925'
+        };
+
+        // Store in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        // Redirect to app
+        setTimeout(() => {
+            window.location.href = '/dashboard';
+        }, 1500);
+    </script>
+</body>
+</html>

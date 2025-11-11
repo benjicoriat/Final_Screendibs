@@ -1,11 +1,25 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { paymentsAPI } from '../services/api';
+// @ts-ignore - api.js exports are available at runtime
+import { paymentsAPI } from '../services/api.js';
 
-const Dashboard = () => {
+interface Payment {
+  id: number;
+  user_id: number;
+  stripe_payment_id: string;
+  amount: number;
+  plan_type: 'basic' | 'detailed' | 'premium';
+  book_title: string;
+  book_author: string;
+  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  pdf_sent: boolean;
+  created_at: string;
+}
+
+const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const [payments, setPayments] = useState([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -24,25 +38,12 @@ const Dashboard = () => {
     }
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'failed':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
   };
 
   return (
@@ -147,7 +148,7 @@ const Dashboard = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="text-sm font-medium text-slate-900">
-                          ${payment.amount.toFixed(2)}
+                          ${(payment.amount / 100).toFixed(2)}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">

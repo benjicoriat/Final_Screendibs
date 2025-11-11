@@ -64,12 +64,17 @@ class PaymentCreate(BaseModel):
 
 class PaymentResponse(BaseModel):
     id: int
-    amount: float
+    amount: float  # Display as dollars (convert from cents in serializer)
     status: PaymentStatus
     plan_type: PlanType
     book_title: str
     book_author: str
     created_at: datetime
+    
+    @property
+    def amount_dollars(self) -> float:
+        """Convert cents to dollars for display."""
+        return self.amount / 100
     
     class Config:
         from_attributes = True

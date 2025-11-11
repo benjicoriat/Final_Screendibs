@@ -74,6 +74,20 @@ app.add_middleware(
 # Compression middleware
 app.add_middleware(GZipMiddleware)
 
+# Security headers middleware
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    """Add security headers to all responses"""
+    response = await call_next(request)
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    if settings.ENVIRONMENT == "production":
+        response.headers["Content-Security-Policy"] = "default-src 'self'"
+    return response
+
 # Exception handlers
 app.add_exception_handler(Exception, global_exception_handler)
 

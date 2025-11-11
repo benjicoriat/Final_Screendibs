@@ -55,7 +55,7 @@ async def create_payment_intent(
         db_payment = Payment(
             user_id=current_user.id,
             stripe_payment_id=intent.id,
-            amount=amount / 100,  # Convert cents to dollars
+            amount=amount,  # Already in cents from PLAN_PRICES
             status=PaymentStatus.PENDING,
             plan_type=payment_data.plan_type,
             book_title=payment_data.book_title,
