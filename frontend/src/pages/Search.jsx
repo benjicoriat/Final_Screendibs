@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagnifyingGlassIcon, BookOpenIcon, AcademicCapIcon, SparklesIcon } from '@heroicons/react/24/outline';
-import { toast } from 'react-hot-toast';
 import { booksAPI } from '../services/api';
 
 const Search = () => {

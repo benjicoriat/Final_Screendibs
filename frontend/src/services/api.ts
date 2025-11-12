@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { AuthResponse, Book, PaymentIntent, User } from '../types';
 
+interface ErrorData {
+  detail?: string;
+}
+
 // Default to a versioned API root; can be overridden with VITE_API_URL
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
 
@@ -8,7 +12,7 @@ class ApiError extends Error {
   constructor(
     public status: number,
     public message: string,
-    public data?: any
+    public data?: ErrorData
   ) {
     super(message);
     this.name = 'ApiError';
@@ -43,16 +47,15 @@ class Api {
 
     this.instance.interceptors.response.use(
       (response) => response,
-      (error: AxiosError) => {
+      (error: AxiosError<ErrorData>) => {
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
           window.location.href = '/login';
         }
         throw new ApiError(
           error.response?.status || 500,
-          // cast to any to safely access detail property when response data shape is unknown
-          (error.response as any)?.data?.detail || 'An unexpected error occurred',
-          (error.response as any)?.data
+          error.response?.data?.detail || 'An unexpected error occurred',
+          error.response?.data
         );
       }
     );
@@ -79,7 +82,7 @@ class Api {
   }
 
   // Books endpoints
-  async searchBooks(searchData: { query: string; filters?: Record<string, any> }): Promise<Book[]> {
+  async searchBooks(searchData: { query: string; filters?: Record<string, string> }): Promise<Book[]> {
     const response = await this.instance.post<Book[]>('/books/search', searchData);
     return this.handleResponse(response);
   }
@@ -100,8 +103,8 @@ class Api {
     return this.handleResponse(response);
   }
 
-  async getPaymentHistory(): Promise<any[]> {
-    const response = await this.instance.get<any[]>('/payments/history');
+  async getPaymentHistory(): Promise<PaymentIntent[]> {
+    const response = await this.instance.get<PaymentIntent[]>('/payments/history');
     return this.handleResponse(response);
   }
 }

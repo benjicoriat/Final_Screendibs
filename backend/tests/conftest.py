@@ -51,3 +51,19 @@ def client():
     with TestClient(app) as client:
         yield client
     app.dependency_overrides = {}
+
+
+@pytest.fixture
+def db():
+    """Provide a database session for unit tests."""
+    Base.metadata.create_all(bind=engine)
+    connection = engine.connect()
+    transaction = connection.begin()
+    session = TestingSessionLocal(bind=connection)
+    
+    yield session
+    
+    session.close()
+    transaction.rollback()
+    connection.close()
+    Base.metadata.drop_all(bind=engine)

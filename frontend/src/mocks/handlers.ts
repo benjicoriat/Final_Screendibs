@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 const handlers = [
-  rest.post('/api/v1/auth/login', (req, res, ctx) => {
+  rest.post('/api/v1/auth/login', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -17,7 +17,7 @@ const handlers = [
     );
   }),
 
-  rest.get('/api/v1/auth/me', (req, res, ctx) => {
+  rest.get('/api/v1/auth/me', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -29,7 +29,7 @@ const handlers = [
     );
   }),
 
-  rest.post('/api/v1/books/search', (req, res, ctx) => {
+  rest.post('/api/v1/books/search', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([
@@ -45,7 +45,7 @@ const handlers = [
     );
   }),
 
-  rest.post('/api/v1/payments/create-payment-intent', (req, res, ctx) => {
+  rest.post('/api/v1/payments/create-payment-intent', (_req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({

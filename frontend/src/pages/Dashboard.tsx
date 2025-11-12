@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-// @ts-ignore - api.js exports are available at runtime
+// @ts-expect-error - api.js exports are available at runtime
 import { paymentsAPI } from '../services/api.js';
 
 interface Payment {

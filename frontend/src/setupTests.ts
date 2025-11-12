@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import '@testing-library/jest-dom';
 import { server } from './mocks/server';
 
@@ -15,3 +16,4 @@ afterAll(() => {
   // Clean up after all tests are done.
   server.close();
 });
+/* eslint-enable no-undef */

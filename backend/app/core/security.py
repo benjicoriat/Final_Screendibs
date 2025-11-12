@@ -1,17 +1,24 @@
 from datetime import datetime, timedelta
 from typing import Optional
+
 from jose import JWTError, jwt
-from .config import settings
 from passlib.context import CryptContext
+
+from .config import settings
 
 # Production-grade password hashing using argon2 (with bcrypt fallback)
 pwd_context = CryptContext(schemes=["argon2", "bcrypt"], deprecated="auto")
 
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    result: bool = pwd_context.verify(plain_password, hashed_password)
+    return result
+
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    result: str = pwd_context.hash(password)
+    return result
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -22,6 +29,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
+
 
 def decode_access_token(token: str):
     try:

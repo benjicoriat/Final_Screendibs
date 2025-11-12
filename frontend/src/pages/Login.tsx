@@ -29,7 +29,7 @@ const Login: React.FC = () => {
       await login(formData);
       navigate('/dashboard');
     } catch (err) {
-      const axiosError = err as AxiosError<any>;
+      const axiosError = err as AxiosError<{detail?: string}>;
       setError(axiosError.response?.data?.detail || 'Login failed. Please try again.');
     } finally {
       setLoading(false);

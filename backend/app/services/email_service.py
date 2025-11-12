@@ -1,36 +1,39 @@
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 import base64
+
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Attachment, Disposition, FileContent, FileName, FileType, Mail
+
 from ..core.config import settings
+
 
 class EmailService:
     def __init__(self):
         self.client = SendGridAPIClient(settings.SENDGRID_API_KEY)
         self.from_email = settings.FROM_EMAIL
-    
+
     def send_report_email(self, to_email: str, book_title: str, author: str, pdf_path: str, plan_type: str):
         """Sends the generated report PDF to the user's email."""
-        
+
         # Read PDF file
-        with open(pdf_path, 'rb') as f:
+        with open(pdf_path, "rb") as f:
             pdf_data = f.read()
-        
+
         # Encode PDF to base64
         encoded_file = base64.b64encode(pdf_data).decode()
-        
+
         # Create attachment
         attached_file = Attachment(
             FileContent(encoded_file),
             FileName(f"{book_title.replace(' ', '_')}_report.pdf"),
-            FileType('application/pdf'),
-            Disposition('attachment')
+            FileType("application/pdf"),
+            Disposition("attachment"),
         )
-        
+
         # Create email
         message = Mail(
             from_email=self.from_email,
             to_emails=to_email,
-            subject=f'Your {plan_type.capitalize()} Report: {book_title}',
+            subject=f"Your {plan_type.capitalize()} Report: {book_title}",
             html_content=f"""
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -72,16 +75,15 @@ class EmailService:
                     </div>
                 </body>
             </html>
-            """
+            """,
         )
-        
+
         # Attach PDF
         message.attachment = attached_file
-        
+
         # Send email
         try:
             response = self.client.send(message)
             return response.status_code == 202
         except Exception as e:
             raise Exception(f"Failed to send email: {e}")
-        
