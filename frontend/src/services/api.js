@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Use VITE_API_URL if provided, otherwise default to the server versioned API prefix
+// Use VITE_API_URL if provided, otherwise use the proxy path
 const API_URL = import.meta.env.VITE_API_URL || '/api/v1';
 
 const api = axios.create({

@@ -4,25 +4,25 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    # Database
-    DATABASE_URL: str
+    # Database (default to local SQLite for development/testing)
+    DATABASE_URL: str = "sqlite:///./app.db"
 
     # JWT
-    SECRET_KEY: str
+    SECRET_KEY: str = "change-me-in-prod"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     # Groq
-    GROQ_API_KEY: str
+    GROQ_API_KEY: Optional[str] = None
 
     # Stripe
-    STRIPE_SECRET_KEY: str
-    STRIPE_PUBLISHABLE_KEY: str
+    STRIPE_SECRET_KEY: Optional[str] = None
+    STRIPE_PUBLISHABLE_KEY: Optional[str] = None
     STRIPE_WEBHOOK_SECRET: Optional[str] = None
 
     # SendGrid
-    SENDGRID_API_KEY: str
-    FROM_EMAIL: str
+    SENDGRID_API_KEY: Optional[str] = None
+    FROM_EMAIL: Optional[str] = None
 
     # Google OAuth
     GOOGLE_CLIENT_ID: Optional[str] = None

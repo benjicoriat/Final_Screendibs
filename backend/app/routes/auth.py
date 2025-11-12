@@ -1,4 +1,5 @@
 from datetime import timedelta
+from typing import Optional, cast
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -17,8 +18,8 @@ router = APIRouter(tags=["authentication"])
 limiter = Limiter(key_func=get_remote_address)
 
 
-@router.post("/register", response_model=UserResponse)
-@limiter.limit("3/minute")
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("4/minute")
 async def register(request: Request, user: UserCreate, db: Session = Depends(get_db)):
     """Register a new user with email and password."""
 
@@ -45,7 +46,15 @@ async def login(request: Request, user: UserLogin, db: Session = Depends(get_db)
 
     # Find user
     db_user = db.query(User).filter(User.email == user.email).first()
-    if not db_user or not db_user.hashed_password:
+    if db_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    hashed_password = cast(Optional[str], db_user.hashed_password)
+    if not hashed_password:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
@@ -53,7 +62,7 @@ async def login(request: Request, user: UserLogin, db: Session = Depends(get_db)
         )
 
     # Verify password
-    if not verify_password(user.password, db_user.hashed_password):
+    if not verify_password(user.password, hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
@@ -61,7 +70,7 @@ async def login(request: Request, user: UserLogin, db: Session = Depends(get_db)
         )
 
     # Check if user is active
-    if not db_user.is_active:
+    if not bool(getattr(db_user, "is_active", False)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user account")
 
     # Create access token
@@ -79,14 +88,22 @@ async def login_for_access_token(
     """OAuth2 compatible token login (for Swagger UI)."""
 
     user = db.query(User).filter(User.email == form_data.username).first()
-    if not user or not user.hashed_password:
+    if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    if not verify_password(form_data.password, user.hashed_password):
+    hashed_password = cast(Optional[str], user.hashed_password)
+    if not hashed_password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if not verify_password(form_data.password, hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",

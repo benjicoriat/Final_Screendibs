@@ -1,9 +1,13 @@
 import datetime
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.responses import JSONResponse
+
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 
 from .core.config import settings
 from .core.database import SessionLocal
@@ -77,10 +81,16 @@ app.add_middleware(TrustedHostMiddleware, allowed_hosts=[allowed_host, "localhos
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL],
+    allow_origins=[
+        settings.FRONTEND_URL,
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+    ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Compression middleware
@@ -105,7 +115,24 @@ async def add_security_headers(request: Request, call_next):
 # Exception handlers
 app.add_exception_handler(Exception, global_exception_handler)
 
+
+def handle_rate_limit(request: Request, exc: RateLimitExceeded):
+    """Return a consistent response when rate limits are exceeded."""
+
+    return JSONResponse(
+        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+        content={"detail": "Rate limit exceeded"},
+    )
+
+
+app.add_exception_handler(RateLimitExceeded, handle_rate_limit)
+
+# Rate limiting middleware
+app.state.limiter = auth.limiter
+app.add_middleware(SlowAPIMiddleware)
+
 # Include routers
 app.include_router(auth.router, prefix="/api/v1/auth")
+app.include_router(auth.router, prefix="/auth")
 app.include_router(books.router, prefix="/api/v1/books")
 app.include_router(payments.router, prefix="/api/v1/payments")

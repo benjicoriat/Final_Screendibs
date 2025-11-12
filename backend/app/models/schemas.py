@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from typing import Optional
 
@@ -14,6 +15,23 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, value: str) -> str:
+        password = value or ""
+        has_min_length = len(password) >= 8
+        has_upper = any(char.isupper() for char in password)
+        has_lower = any(char.islower() for char in password)
+        has_digit = any(char.isdigit() for char in password)
+        has_special = bool(re.search(r"[^A-Za-z0-9]", password))
+
+        if not all([has_min_length, has_upper, has_lower, has_digit, has_special]):
+            raise ValueError(
+                "Password must be at least 8 characters long and include upper, lower, digit, and special characters."
+            )
+
+        return password
 
 
 class UserLogin(BaseModel):

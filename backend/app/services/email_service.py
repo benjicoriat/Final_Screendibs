@@ -8,6 +8,9 @@ from ..core.config import settings
 
 class EmailService:
     def __init__(self):
+        if not settings.SENDGRID_API_KEY or not settings.FROM_EMAIL:
+            raise RuntimeError("SendGrid configuration is missing; set SENDGRID_API_KEY and FROM_EMAIL.")
+
         self.client = SendGridAPIClient(settings.SENDGRID_API_KEY)
         self.from_email = settings.FROM_EMAIL
 

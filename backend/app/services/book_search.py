@@ -14,7 +14,12 @@ logger = logging.getLogger(__name__)
 
 class BookSearchService:
     def __init__(self):
-        self.client = Groq(api_key=settings.GROQ_API_KEY)
+        api_key = settings.GROQ_API_KEY
+        if api_key:
+            self.client = Groq(api_key=api_key)
+        else:
+            logger.warning("GROQ_API_KEY not configured; using fallback book recommendations.")
+            self.client = None
         self.max_retries = 3
         self.base_backoff = 1  # seconds
 
@@ -57,6 +62,9 @@ class BookSearchService:
         self, description: str, additional_details: Optional[str], exclude_titles: List[str]
     ) -> List[BookInfo]:
         """Internal method to perform the actual search."""
+
+        if self.client is None:
+            return self._fallback_results(description)
 
         prompt = f"""You are a knowledgeable librarian assistant. Find exactly 10 books that match the following criteria:
 
@@ -143,3 +151,36 @@ IMPORTANT:
         except Exception as e:
             logger.error(f"Book search service error: {e}")
             raise
+
+    def _fallback_results(self, description: str) -> List[BookInfo]:
+        """Return deterministic placeholder results when the Groq API key is missing."""
+
+        topic = description.strip() or "Curated Reads"
+        base_title = topic.title() if len(topic) < 60 else topic[:57].title() + "..."
+
+        placeholders = [
+            BookInfo(
+                title=f"{base_title} Anthology",
+                author="Screendibs Research Team",
+                year="2024",
+                type="Reference",
+                description="An accessible overview compiled by the Screendibs team. A real Groq API key unlocks live book discovery.",
+            ),
+            BookInfo(
+                title=f"Exploring {base_title}",
+                author="Screendibs Research Team",
+                year="2024",
+                type="Guide",
+                description="A concise guide inspired by your search topic. Enable Groq integration to receive ten tailored literary recommendations.",
+            ),
+            BookInfo(
+                title=f"{base_title} Essentials",
+                author="Screendibs Research Team",
+                year="2024",
+                type="Overview",
+                description="Key themes and reading paths curated as a temporary stand-in. Configure GROQ_API_KEY for AI-powered suggestions.",
+            ),
+        ]
+
+        logger.info("Provided fallback book results; configure GROQ_API_KEY for live recommendations.")
+        return placeholders

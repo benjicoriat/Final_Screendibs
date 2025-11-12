@@ -160,8 +160,19 @@ const Checkout = () => {
   const [selectedPlan, setSelectedPlan] = useState('detailed');
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem('token');
+    const isGuest = localStorage.getItem('guestMode') === 'true';
+    
+    if (!token && isGuest) {
+      // Guest trying to checkout - show auth prompt
+      setShowAuthPrompt(true);
+      return;
+    }
+
     if (!book) {
       navigate('/search');
       return;
@@ -179,6 +190,46 @@ const Checkout = () => {
       setLoading(false);
     }
   };
+
+  if (showAuthPrompt) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 via-white to-primary-50/10 py-12 px-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center">
+          <div className="mb-6">
+            <svg className="mx-auto h-16 w-16 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-serif font-bold text-slate-900 mb-4">
+            Sign In Required
+          </h2>
+          <p className="text-slate-600 mb-6">
+            To complete your purchase, please sign in or create an account.
+          </p>
+          <div className="space-y-3">
+            <button
+              onClick={() => navigate('/login')}
+              className="w-full px-6 py-3 text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate('/register')}
+              className="w-full px-6 py-3 text-base font-medium text-slate-700 bg-white border-2 border-slate-300 hover:border-primary-500 hover:text-primary-600 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              Create Account
+            </button>
+            <button
+              onClick={() => navigate('/search')}
+              className="w-full px-6 py-3 text-base font-medium text-slate-500 hover:text-slate-700 transition-colors duration-300"
+            >
+              Continue Browsing
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!book) {
     return null;

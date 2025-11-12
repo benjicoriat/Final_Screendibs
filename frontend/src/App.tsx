@@ -40,22 +40,8 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="/search"
-                  element={
-                    <ProtectedRoute>
-                      <Search />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/checkout"
-                  element={
-                    <ProtectedRoute>
-                      <Checkout />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="/search" element={<Search />} />
+                <Route path="/checkout" element={<Checkout />} />
               </Routes>
             </div>
           </AuthProvider>

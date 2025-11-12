@@ -112,6 +112,28 @@ const Login: React.FC = () => {
                 )}
               </button>
             </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-slate-500">Or</span>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  localStorage.setItem('guestMode', 'true');
+                  navigate('/search');
+                }}
+                className="w-full px-6 py-4 text-base font-medium text-slate-700 bg-white border-2 border-slate-300 hover:border-primary-500 hover:text-primary-600 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                Continue as Guest (Browse Only)
+              </button>
+            </div>
           </form>
         </div>
       </div>

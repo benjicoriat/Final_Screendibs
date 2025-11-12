@@ -522,3 +522,273 @@ description
 2025-11-12 15:47:21 - app.services.report_generator - INFO - Generating section 'Section' attempt 1/2
 2025-11-12 15:47:21 - app.services.report_generator - ERROR - Section generation error: API Error
 2025-11-12 15:48:32 - app - INFO - Audit listeners initialized
+2025-11-12 15:52:45 - app - INFO - Audit listeners initialized
+2025-11-12 16:16:15 - app - INFO - Audit listeners initialized
+2025-11-12 16:16:47 - app - INFO - Audit listeners initialized
+2025-11-12 16:18:38 - app - INFO - Audit listeners initialized
+2025-11-12 16:19:47 - app - INFO - Audit listeners initialized
+2025-11-12 16:19:50 - app - INFO - Audit listeners initialized
+2025-11-12 16:20:07 - app - INFO - Audit listeners initialized
+2025-11-12 16:22:04 - app - INFO - Audit listeners initialized
+2025-11-12 16:22:21 - app - INFO - Audit listeners initialized
+2025-11-12 16:22:24 - app - INFO - Audit listeners initialized
+2025-11-12 16:23:17 - app - INFO - Audit listeners initialized
+2025-11-12 16:23:19 - app - INFO - Audit listeners initialized
+2025-11-12 16:23:25 - app - INFO - Audit listeners initialized
+2025-11-12 16:23:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:23:38 - app - INFO - Audit listeners initialized
+2025-11-12 16:23:40 - app - INFO - Audit listeners initialized
+2025-11-12 16:24:33 - app - INFO - Audit listeners initialized
+2025-11-12 16:24:48 - app - INFO - Audit listeners initialized
+2025-11-12 16:24:50 - app - INFO - Audit listeners initialized
+2025-11-12 16:25:02 - app - INFO - Audit listeners initialized
+2025-11-12 16:25:05 - app - INFO - Audit listeners initialized
+2025-11-12 16:25:46 - app - INFO - Audit listeners initialized
+2025-11-12 16:26:57 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:18 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:20 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:23 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:25 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:28 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:30 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:33 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:35 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:38 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:40 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:43 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:45 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:48 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:50 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:53 - app - INFO - Audit listeners initialized
+2025-11-12 16:27:55 - app - INFO - Audit listeners initialized
+2025-11-12 16:29:57 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:17 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:19 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:22 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:24 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:26 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:29 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:31 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:33 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:38 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:41 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:43 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:45 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:48 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:50 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:52 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:55 - app - INFO - Audit listeners initialized
+2025-11-12 16:30:57 - app - INFO - Audit listeners initialized
+2025-11-12 16:31:00 - app - INFO - Audit listeners initialized
+2025-11-12 16:31:02 - app - INFO - Audit listeners initialized
+2025-11-12 16:31:04 - app - INFO - Audit listeners initialized
+2025-11-12 16:31:07 - app - INFO - Audit listeners initialized
+2025-11-12 16:31:09 - app - INFO - Audit listeners initialized
+2025-11-12 16:31:11 - app - INFO - Audit listeners initialized
+2025-11-12 16:43:32 - app - INFO - Audit listeners initialized
+2025-11-12 16:43:35 - app - INFO - Audit listeners initialized
+2025-11-12 16:44:15 - app.request - INFO - Request: POST http://127.0.0.1:8000/books/search from 127.0.0.1
+2025-11-12 16:44:22 - app.request - INFO - Request: POST http://127.0.0.1:8000/books/search from 127.0.0.1
+2025-11-12 16:45:46 - app.request - INFO - Request: POST http://127.0.0.1:8000/api/v1/books/search from 127.0.0.1
+2025-11-12 16:45:48 - app.services.book_search - INFO - Book search attempt 1/3 for: A dystopian novel...
+2025-11-12 16:45:53 - app.services.book_search - DEBUG - LLM response length: 6781 chars
+2025-11-12 16:45:53 - app.services.book_search - ERROR - Book search service error: Error parsing AI response (extracted): Expecting ',' delimiter: line 42 column 475 (char 3895)
+Content: [
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": "1953",
+        "type": "Dystopian, Sci-fi",
+        "description": "The novel is set in a future society w
+2025-11-12 16:45:53 - app.services.book_search - ERROR - Book search error on attempt 1: Error parsing AI response (extracted): Expecting ',' delimiter: line 42 column 475 (char 3895)
+Content: [
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": "1953",
+        "type": "Dystopian, Sci-fi",
+        "description": "The novel is set in a future society w
+2025-11-12 16:45:53 - app.services.book_search - INFO - Retrying in 1.5 seconds...
+2025-11-12 16:45:54 - app.services.book_search - INFO - Book search attempt 2/3 for: A dystopian novel...
+2025-11-12 16:45:58 - app.services.book_search - DEBUG - LLM response length: 5883 chars
+2025-11-12 16:45:58 - app.services.book_search - ERROR - Book search service error: Error parsing AI response (extracted): Expecting ',' delimiter: line 42 column 434 (char 3436)
+Content: [
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": "1953",
+        "type": "Dystopian, Sci-fi",
+        "description": "The novel is set in a future society w
+2025-11-12 16:45:58 - app.services.book_search - ERROR - Book search error on attempt 2: Error parsing AI response (extracted): Expecting ',' delimiter: line 42 column 434 (char 3436)
+Content: [
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": "1953",
+        "type": "Dystopian, Sci-fi",
+        "description": "The novel is set in a future society w
+2025-11-12 16:45:58 - app.services.book_search - INFO - Retrying in 2.8 seconds...
+2025-11-12 16:46:00 - app.services.book_search - INFO - Book search attempt 3/3 for: A dystopian novel...
+2025-11-12 16:46:04 - app.services.book_search - DEBUG - LLM response length: 5813 chars
+2025-11-12 16:46:04 - app.services.book_search - ERROR - Book search service error: Error parsing AI response (extracted): Expecting ',' delimiter: line 56 column 126 (char 4303)
+Content: [
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": "1953",
+        "type": "Dystopian, Sci-Fi",
+        "description": "The novel is set in a future society w
+2025-11-12 16:46:04 - app.services.book_search - ERROR - Book search error on attempt 3: Error parsing AI response (extracted): Expecting ',' delimiter: line 56 column 126 (char 4303)
+Content: [
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": "1953",
+        "type": "Dystopian, Sci-Fi",
+        "description": "The novel is set in a future society w
+2025-11-12 16:47:08 - app.request - INFO - Request: POST http://127.0.0.1:8000/books/search from 127.0.0.1
+2025-11-12 16:47:33 - app.request - INFO - Request: POST http://127.0.0.1:8000/books/search from 127.0.0.1
+2025-11-12 16:59:28 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:28 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:30 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:30 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:31 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:31 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:31 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:31 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:31 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:31 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:32 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:32 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:34 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:34 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:34 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:34 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:34 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:34 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:34 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:34 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:35 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/auth/login from testclient
+2025-11-12 16:59:35 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:35 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/auth/register from testclient
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/auth/token from testclient
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/api/v1/books/search from testclient
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/api/v1/books/search from testclient
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/api/v1/books/search from testclient
+2025-11-12 16:59:35 - app.services.book_search - INFO - Book search attempt 1/3 for: test book...
+2025-11-12 16:59:35 - app.services.book_search - DEBUG - LLM response length: 148 chars
+2025-11-12 16:59:35 - app.services.book_search - INFO - Successfully retrieved 1 books
+2025-11-12 16:59:35 - app.request - INFO - Request: POST http://testserver/api/v1/books/search from testclient
+2025-11-12 16:59:36 - app.request - INFO - Request: GET http://testserver/api/v1/payments/plans from testclient
+2025-11-12 16:59:36 - app.request - INFO - Request: POST http://testserver/api/v1/books/search from testclient
+2025-11-12 16:59:36 - app.request - INFO - Request: GET http://testserver/ from testclient
+2025-11-12 16:59:36 - app.request - INFO - Request: GET http://testserver/health from testclient
+2025-11-12 16:59:36 - app.request - INFO - Request: GET http://testserver/ from testclient
+2025-11-12 16:59:36 - app.request - INFO - Request: GET http://testserver/health from testclient
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app.request - INFO - Request: POST http://testserver/payments/create-payment-intent from testclient
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:36 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:37 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:37 - app.request - INFO - Request: GET http://testserver/payments/history from testclient
+2025-11-12 16:59:37 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:37 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:37 - app - INFO - Audit listeners initialized
+2025-11-12 16:59:37 - app.services.book_search - INFO - Book search attempt 1/3 for: science fiction...
+2025-11-12 16:59:37 - app.services.book_search - DEBUG - LLM response length: 124 chars
+2025-11-12 16:59:37 - app.services.book_search - ERROR - Book search service error: 3 validation errors for BookInfo
+year
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+type
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-11-12 16:59:37 - app.services.book_search - ERROR - Book search error on attempt 1: 3 validation errors for BookInfo
+year
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+type
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-11-12 16:59:37 - app.services.book_search - INFO - Retrying in 1.6 seconds...
+2025-11-12 16:59:38 - app.services.book_search - INFO - Book search attempt 2/3 for: science fiction...
+2025-11-12 16:59:38 - app.services.book_search - DEBUG - LLM response length: 124 chars
+2025-11-12 16:59:38 - app.services.book_search - ERROR - Book search service error: 3 validation errors for BookInfo
+year
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+type
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-11-12 16:59:38 - app.services.book_search - ERROR - Book search error on attempt 2: 3 validation errors for BookInfo
+year
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+type
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-11-12 16:59:38 - app.services.book_search - INFO - Retrying in 2.4 seconds...
+2025-11-12 16:59:41 - app.services.book_search - INFO - Book search attempt 3/3 for: science fiction...
+2025-11-12 16:59:41 - app.services.book_search - DEBUG - LLM response length: 124 chars
+2025-11-12 16:59:41 - app.services.book_search - ERROR - Book search service error: 3 validation errors for BookInfo
+year
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+type
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-11-12 16:59:41 - app.services.book_search - ERROR - Book search error on attempt 3: 3 validation errors for BookInfo
+year
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+type
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Book 1', 'auth...r 1', 'reason': 'Match'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-11-12 16:59:43 - app.services.report_generator - INFO - Generating section 'Summary' attempt 1/2
+2025-11-12 16:59:43 - app.services.report_generator - INFO - Generating section 'Book Statistics' attempt 1/2
+2025-11-12 16:59:43 - app.services.report_generator - INFO - Generating section 'Synopsis' attempt 1/2
+2025-11-12 16:59:43 - app.services.report_generator - INFO - Generating section 'Author Presentation' attempt 1/2
+2025-11-12 16:59:43 - app.services.report_generator - INFO - Generating section 'Copyright and Publication Details' attempt 1/2
+2025-11-12 16:59:43 - app.services.report_generator - INFO - Generating section 'Past Adaptations' attempt 1/2
+2025-11-12 16:59:43 - app.services.book_search - INFO - Book search attempt 1/3 for: test...
+2025-11-12 16:59:43 - app.services.book_search - ERROR - Book search service error: API Error
+2025-11-12 16:59:43 - app.services.book_search - ERROR - Book search error on attempt 1: API Error
+2025-11-12 16:59:43 - app.services.book_search - INFO - Retrying in 1.9 seconds...
+2025-11-12 16:59:45 - app.services.book_search - INFO - Book search attempt 2/3 for: test...
+2025-11-12 16:59:45 - app.services.book_search - ERROR - Book search service error: API Error
+2025-11-12 16:59:45 - app.services.book_search - ERROR - Book search error on attempt 2: API Error
+2025-11-12 16:59:45 - app.services.book_search - INFO - Retrying in 2.9 seconds...
+2025-11-12 16:59:48 - app.services.book_search - INFO - Book search attempt 3/3 for: test...
+2025-11-12 16:59:48 - app.services.book_search - ERROR - Book search service error: API Error
+2025-11-12 16:59:48 - app.services.book_search - ERROR - Book search error on attempt 3: API Error
+2025-11-12 16:59:49 - app.services.report_generator - INFO - Generating section 'Section' attempt 1/2
+2025-11-12 16:59:49 - app.services.report_generator - ERROR - Section generation error: API Error
